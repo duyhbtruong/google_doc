@@ -1,6 +1,7 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import Underline from "@tiptap/extension-underline";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Table from "@tiptap/extension-table";
@@ -50,6 +51,7 @@ export const Editor = () => {
     },
     extensions: [
       StarterKit,
+      Underline,
       Image,
       ImageResize,
       Table,
