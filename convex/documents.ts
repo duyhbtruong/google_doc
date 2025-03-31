@@ -146,13 +146,21 @@ export const updateById = mutation({
     if (!isOwner && !isOrganizationMember)
       throw new ConvexError("Unauthorized.");
 
-    return await ctx.db.patch(args.id, { title: args.title });
+    return await ctx.db.patch(args.id, {
+      title: args.title === "" ? "Untitled Document" : args.title,
+    });
   },
 });
 
 export const getById = query({
   args: { id: v.id("documents") },
   handler: async (ctx, { id }) => {
-    return await ctx.db.get(id);
+    const document = await ctx.db.get(id);
+
+    if (!document) {
+      throw new ConvexError("Document not found.");
+    }
+
+    return document;
   },
 });
