@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/react";
+import { Editor, Extension } from "@tiptap/react";
 import "@tiptap/extension-text-style";
 
 declare module "@tiptap/core" {
@@ -15,6 +15,7 @@ export const FontSizeExtension = Extension.create({
   addOptions() {
     return {
       types: ["textStyle"],
+      defaultSize: "16",
     };
   },
   addGlobalAttributes() {
@@ -23,7 +24,12 @@ export const FontSizeExtension = Extension.create({
         types: this.options.types,
         attributes: {
           fontSize: {
-            default: null,
+            default: this.options.defaultSize,
+            parseHTML: (element) => {
+              const fontSize =
+                element.style.fontSize || element.getAttribute("size");
+              return fontSize || null;
+            },
             renderHTML: (attributes) => {
               if (!attributes.fontSize) {
                 return {};
@@ -33,7 +39,6 @@ export const FontSizeExtension = Extension.create({
                 style: `font-size: ${attributes.fontSize}`,
               };
             },
-            parseHTML: (element) => element.style.fontSize,
           },
         },
       },

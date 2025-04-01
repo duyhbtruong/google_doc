@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlignCenterIcon,
   AlignJustifyIcon,
@@ -430,6 +430,23 @@ const FontSizeButton = () => {
   const [fontSize, setFontSize] = useState(currentFontSize);
   const [inputValue, setInputValue] = useState(fontSize);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleUpdate = () => {
+      const newFontSize =
+        editor.getAttributes("textStyle").fontSize?.replace("px", "") || "16";
+      setFontSize(newFontSize);
+      setInputValue(newFontSize);
+    };
+
+    editor.on("transaction", handleUpdate);
+
+    return () => {
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor]);
 
   const updateFontSize = (newSize: string) => {
     const size = parseInt(newSize);
