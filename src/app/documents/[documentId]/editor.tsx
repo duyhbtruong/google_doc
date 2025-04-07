@@ -24,6 +24,7 @@ import { useStorage } from "@liveblocks/react";
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
+import { PromptNode } from "@/extensions/prompt-node";
 
 import { Ruler } from "./ruler";
 import { Threads } from "./threads";
@@ -53,6 +54,7 @@ export const Editor = ({ initialContent }: EditorProps) => {
       setEditor(editor);
     },
     onDestroy() {
+      editor?.commands.deleteNode("promptNode");
       setEditor(null);
     },
     onUpdate({ editor }) {
@@ -82,6 +84,7 @@ export const Editor = ({ initialContent }: EditorProps) => {
     },
     extensions: [
       liveblocks,
+      PromptNode,
       StarterKit.configure({
         history: false,
       }),

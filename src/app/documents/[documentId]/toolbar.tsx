@@ -24,6 +24,7 @@ import {
   Redo2Icon,
   RemoveFormattingIcon,
   SearchIcon,
+  SparklesIcon,
   SpellCheckIcon,
   UnderlineIcon,
   Undo2Icon,
@@ -51,6 +52,25 @@ import {
 import { useEditorStore } from "@/store/use-editor-store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+const AiWriterButton = () => {
+  const { editor } = useEditorStore();
+
+  const onClick = () => {
+    editor?.chain().focus().createPromptNode().run();
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "text-sm h-7 min-w-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80"
+      )}
+    >
+      <SparklesIcon className="size-4" />
+    </button>
+  );
+};
 
 const HeadingLevelButton = () => {
   const { editor } = useEditorStore();
@@ -691,6 +711,8 @@ export const Toolbar = () => {
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
+      <Separator orientation="vertical" className="h-6 bg-neutral-300" />
+      <AiWriterButton />
     </div>
   );
 };

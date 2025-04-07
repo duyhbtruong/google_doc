@@ -11,12 +11,14 @@ declare module "@tiptap/core" {
 
 export const LineHeightExtension = Extension.create({
   name: "lineHeight",
+
   addOptions() {
     return {
       types: ["paragraph", "heading"],
       defaultLineHeight: "normal",
     };
   },
+
   addGlobalAttributes() {
     return [
       {
@@ -38,6 +40,7 @@ export const LineHeightExtension = Extension.create({
       },
     ];
   },
+
   addCommands() {
     return {
       setLineHeight:
